@@ -1,14 +1,24 @@
 package main
 
-import (
-	"github.com/gin-gonic/gin"
-)
+import ("github.com/gin-gonic/gin"
+	"time"
+"controller")
 
 func main() {
 	r := gin.Default()
 	r.LoadHTMLTemplates("templates/*")
+
 	r.GET("/", func(c *gin.Context) {
-//			c.String(200, "Hello, I'm PPMThird. power by gin")
+			t := time.Now().Format("2006-01-02")//获取当前时间的结构体
+
+			lsttask:=controller.GetTask()
+
+			page_data := gin.H{"date": t,"taskList":lsttask}
+			c.HTML(200,"home.html", page_data)
+		})
+
+	r.GET("/index", func(c *gin.Context) {
+			//			c.String(200, "Hello, I'm PPMThird. power by gin")
 			obj := gin.H{"name": "Main website","xyz":"title for con","abc":"一株"}
 			c.HTML(200,"index.tmpl", obj)
 		})
